@@ -8,8 +8,7 @@ from matplotlib import pyplot
 from numpy import genfromtxt
 
 
-class lorentzian_2peaks:                #used for white LEDs, might break for blue/red/IR LEDs
-
+class lorentzian_2peaks:                # used for white LEDs, might break for blue/red/IR LEDs
 
     def __init__(self,                  # input parameters
                  spec_data,             # ndarray, spectra(unfiltered or filtered), goes in Y axis
@@ -29,9 +28,8 @@ class lorentzian_2peaks:                #used for white LEDs, might break for bl
         self._interpolation_window = interpolation_window
         self._first_window = first_window
         self._second_window = second_window
-        self._first_peak_sigma =first_peak_sigma
+        self._first_peak_sigma = first_peak_sigma
         self._second_peak_sigma = second_peak_sigma
-
 
     def initial_peak(self):
         index = peakutils.peak.indexes(self._spec_data, thres= self._threshold, min_dist= self._distance)
@@ -46,7 +44,7 @@ class lorentzian_2peaks:                #used for white LEDs, might break for bl
         print("Initial Interpolated peaks(AUD):", interpolated_y_value)
         return interpolated_y_value
 
-    def lorentzian_model(self):
+    def windowing(self):
         first_range_left = int(self.initial_peak()[0] - self._first_window)
         first_range_right = int(self.initial_peak()[0] + self._first_window +1)
         first_xData = np.array(self._wls[first_range_left:first_range_right])
@@ -57,14 +55,18 @@ class lorentzian_2peaks:                #used for white LEDs, might break for bl
         second_xData = np.array(self._wls[second_range_left:second_range_right])
         second_yData = np.array(self._spec_data[second_range_left:second_range_right])
 
+        return [first_xData, first_yData, second_xData, second_yData]  # I should find a better way, somehing like creating class here and making those attributes instead of returning a list
+
+
+    def lorentzian_model(self):
         first_gmodel = LorentzianModel()
         first_params = first_gmodel.make_params(cen = self._wls[self.initial_peak()[0]],
                                                 amp = self._spec_data[self.initial_peak()[0]],
                                                 wid = self._first_window,
                                                 sigma = self._first_peak_sigma)
-        first_result = first_gmodel.fit(first_yData,
+        first_result = first_gmodel.fit(self.windowing()[1],
                                         first_params,
-                                        x = first_xData)
+                                        x = self.windowing()[0])
 #        print(first_result.fit_report())
 #        print(first_result.values['height'])
 #        print(first_result.values['center'])
@@ -74,9 +76,9 @@ class lorentzian_2peaks:                #used for white LEDs, might break for bl
                                                   amp = self._spec_data[self.initial_peak()[1]],
                                                   wid = self._second_window,
                                                   sigma = self._second_peak_sigma)
-        second_result = second_gmodel.fit(second_yData,
+        second_result = second_gmodel.fit(self.windowing()[3],
                                           second_params,
-                                          x = second_xData)
+                                          x = self.windowing()[2])
 #        print(second_result.fit_report())
 #        print(second_result.values['height'])
 #        print(second_result.values['center'])
@@ -105,6 +107,6 @@ test_run = lorentzian_2peaks(genfromtxt("/home/suzon/Work/LED_tests/long_run/lon
                              5,
                              5)
 
-test_run.plot_lorentzian_spec()
+#test_run.plot_lorentzian_spec()
 #print(test_run.lorentzian_model()[1].values['height'])
 
