@@ -2,10 +2,10 @@
 from lmfit.models import *
 import peakutils
 import numpy as np
-import matplotlib.pyplot as plt
 from peakutils.plot import plot as pplot
 from matplotlib import pyplot
 from numpy import genfromtxt
+from capture_spectra import *
 
 
 class lorentzian_2peaks:                # used for white LEDs, might break for blue/red/IR LEDs
@@ -97,16 +97,32 @@ class lorentzian_2peaks:                # used for white LEDs, might break for b
         pyplot.show()
 
 
-test_run = lorentzian_2peaks(genfromtxt("/home/suzon/Work/LED_tests/long_run/long_LTW/45_LTW2_Filtered/filteredSpec_1559809409.csv"),
-                             genfromtxt("/home/suzon/Work/LED_tests/long_run/long_LTW/wls.csv"),
-                             100,
-                             .5,
-                             100,
-                             50,
-                             100,
-                             5,
-                             5)
+
+test_run = lorentzian_2peaks(np.array(get_spectra(0.05)),
+                                      genfromtxt("/home/pi/PycharmProjects/LED_Test_all/output/WLS/wls.csv", delimiter=','),
+                                      50,
+                                      .7,
+                                      80,
+                                      50,
+                                      15,
+                                      10,
+                                      10)
+                 # spec_data,             # ndarray, spectra(unfiltered or filtered), goes in Y axis
+                 # wls,                   # ndarray, wavelength data, goes in X axis
+                 # distance,              # distance between peaks
+                 # threshold,             # float between [0., 1.], Normalized threshold. Only the peaks with amplitude higher than the threshold will be detected
+                 # interpolation_window,  # Number of points (before and after) each peak index to pass to func in order to increase the resolution in x
+                 # first_window,          # number of data points before and after first initial peak to feed into model
+                 # second_window,         # number of data points before and after second initial peak to feed into model
+                 # first_peak_sigma,      # change value if model breaks(usually value "5" works
+                 # second_peak_sigma):    # change value if model breaks(usually value "5" works
+
+
+# def test():
+#     while True:
+#         time.sleep(2)
+#         return test_run.lorentzian_model()
+
 
 #test_run.plot_lorentzian_spec()
-#print(test_run.lorentzian_model()[1].values['height'])
 

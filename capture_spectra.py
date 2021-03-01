@@ -1,7 +1,14 @@
+import warnings
 from avaspec import *
 import time
 from array import array
 import os.path
+import matplotlib
+matplotlib.use('Qt5Agg')
+import matplotlib.pyplot as plt
+
+
+
 
 AVS_Init(0)
 print('Found %d devices' % AVS_GetNrOfDevices())
@@ -61,20 +68,21 @@ def measure(integration_time):
 
 
 
-def save_spec(): #saves raw unfiltered spectra
+def save_spec(int_time, folder): #saves raw unfiltered spectra
     ts = time.time()
-    with open(os.path.join('output','spec_%d.csv' %ts), 'w') as f:
-        for i in get_spectra():
+    with open(os.path.join('output/'+ folder, 'spec_%d.csv' %ts), 'w') as f:
+        for i in get_spectra(int_time):
             f.write('%d\n' %i)
+    return get_spectra(int_time)
 
-#integration time
-int_time = 100
 
-def get_spectra(): #get raw unfiltered spectra
+def get_spectra(int_time): #get raw unfiltered spectra
     spec = measure(int_time)
     return spec
 
-print(get_spectra())
+def plot_spec():
+    plt.plot(get_spectra(100))
+    plt.show()
 
-#if you want to save
-#save_spec()
+
+#plot_spec()

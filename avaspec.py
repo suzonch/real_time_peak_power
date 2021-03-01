@@ -104,7 +104,7 @@ class DeviceConfigType(ctypes.Structure):
               ("m_OemData", ctypes.c_uint8 * 4096)]
 
 def AVS_Init(x):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int)
     paramflags = (1, "port",),
     AVS_Init = prototype(("AVS_Init", lib), paramflags)
@@ -112,14 +112,14 @@ def AVS_Init(x):
     return ret
 
 def AVS_GetNrOfDevices():
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int)
     AVS_GetNrOfDevices = prototype(("AVS_GetNrOfDevices", lib),)
     ret = AVS_GetNrOfDevices()
     return ret
 
 def AVS_GetList(listsize, requiredsize, IDlist):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(AvsIdentityType))
     paramflags = (1, "listsize",), (2, "requiredsize",), (2, "IDlist",),
     AVS_GetList = prototype(("AVS_GetList", lib), paramflags)
@@ -129,7 +129,7 @@ def AVS_GetList(listsize, requiredsize, IDlist):
     return ret
 
 def AVS_Activate(deviceID):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.POINTER(AvsIdentityType))
     paramflags = (1, "deviceId",),
     AVS_Activate = prototype(("AVS_Activate", lib), paramflags)
@@ -137,7 +137,7 @@ def AVS_Activate(deviceID):
     return ret
 
 def AVS_UseHighResAdc(handle, enable):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int, ctypes.c_bool)
     paramflags = (1, "handle",), (1, "enable",),
     AVS_UseHighResAdc = prototype(("AVS_UseHighResAdc", lib), paramflags)
@@ -145,7 +145,7 @@ def AVS_UseHighResAdc(handle, enable):
     return ret
 
 def AVS_PrepareMeasure(handle, measconf):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     datatype = ctypes.c_byte * 41
     data = datatype()
     temp = datatype()
@@ -181,7 +181,7 @@ def AVS_PrepareMeasure(handle, measconf):
     return ret
 
 def AVS_Measure(handle, dummyhandle, nummeas):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_uint16)
     paramflags = (1, "handle",), (1, "dummyhandle",), (1, "nummeas"),
     AVS_Measure = prototype(("AVS_Measure", lib), paramflags)
@@ -201,14 +201,14 @@ class callbackclass(QObject):
 
 def AVS_MeasureCallback(handle, adres, nummeas):
     CBTYPE = ctypes.CFUNCTYPE(None, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int, CBTYPE, ctypes.c_uint16)
     paramflags = (1, "handle",), (1, "adres",), (1, "nummeas"),
     AVS_MeasureCallback = prototype(("AVS_MeasureCallback", lib), paramflags)
     ret = AVS_MeasureCallback(handle, CBTYPE(callbackclass.callback), nummeas)  # CRASHES Python
 
 def AVS_StopMeasure(handle):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int)
     paramflags = (1, "handle",),
     AVS_StopMeasure = prototype(("AVS_StopMeasure", lib), paramflags)
@@ -216,7 +216,7 @@ def AVS_StopMeasure(handle):
     return ret
 
 def AVS_PollScan(handle):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_bool, ctypes.c_int)
     paramflags = (1, "handle",),
     AVS_PollScan = prototype(("AVS_PollScan", lib), paramflags)
@@ -224,7 +224,7 @@ def AVS_PollScan(handle):
     return ret
 
 def AVS_GetScopeData(handle, timelabel, spectrum):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int, ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_double * 4096))
     paramflags = (1, "handle",), (2, "timelabel",), (2, "spectrum",),
     AVS_GetScopeData = prototype(("AVS_GetScopeData", lib), paramflags)
@@ -232,7 +232,7 @@ def AVS_GetScopeData(handle, timelabel, spectrum):
     return ret
 
 def AVS_GetParameter(handle, size, reqsize, deviceconfig):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     prototype = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(DeviceConfigType))
     paramflags = (1, "handle",), (1, "size",), (2, "reqsize",), (2, "deviceconfig",),
     AVS_GetParameter = prototype(("AVS_GetParameter", lib), paramflags)
@@ -240,7 +240,7 @@ def AVS_GetParameter(handle, size, reqsize, deviceconfig):
     return ret
 
 def AVS_SetParameter(handle, deviceconfig):
-    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.9.9")
+    lib = ctypes.CDLL("/usr/local/lib/libavs.so.0.2.0")
     datatype = ctypes.c_byte * 63484
     data = datatype()
     temp = datatype()
