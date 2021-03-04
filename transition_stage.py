@@ -42,7 +42,7 @@ class MOX06XXX:
 
     def first_loop(self):
         turn.switch_off()
-        int_time = .50
+        int_time = 1
         counter = 0
         save_spec(int_time, "Dark")
 
@@ -120,5 +120,5 @@ class MOX06XXX:
             self.create_loop()
 
 
-test = MOX06XXX(5)
-test.start_test()
+transition = MOX06XXX(1)
+transition.start_test()

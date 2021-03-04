@@ -1,5 +1,6 @@
 import warnings
 from avaspec import *
+from log_iv_t import *
 import time
 from array import array
 import os.path
@@ -80,9 +81,26 @@ def get_spectra(int_time): #get raw unfiltered spectra
     spec = measure(int_time)
     return spec
 
-def plot_spec():
-    plt.plot(get_spectra(100))
+def plot_spec(time):
+    plt.plot(get_spectra(time))
     plt.show()
 
 
+#calibrate
 #plot_spec()
+
+
+seconds = 600
+start = time.time()
+end = start + seconds
+
+# while True:
+#     print("Test running, please don't remove the curtain or turn on light", end - time.time())
+#     save_spec(0.08, "LED4")
+#     saveiv_t(pac_addr, adc_addr, "LED4")
+#     time.sleep(1)
+#     if time.time() >= end:
+#         raise  RuntimeError("Test Done")
+
+#plot_spec(0.08)
+#save_spec(0.08, "Dark")

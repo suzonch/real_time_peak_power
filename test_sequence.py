@@ -9,13 +9,16 @@ bus = SMBus(1)
 
 
 
-def tec_temp():  # will update this to work with temp set point rather than voltage setpoint
-    ltc_tec1 = 0x11
-    
+ltc_tec1 = 0x11
+ltc_addr_led = 0x10
+
+set_temp(ltc_tec1, 23)
+test.set_current(ltc_addr_led, 200, 0.127)
+time.sleep(120)
 
 
 
-def led_current():
-    ltc_led1 = 0x10
-    led_obj = LTC2606(3300, bus.write_i2c_block_data)
-    led_obj.set_current(ltc_led1, 200, 0.127)
+transition = MOX06XXX(1)
+transition.start_test()
+
+

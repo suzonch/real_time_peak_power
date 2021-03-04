@@ -77,10 +77,10 @@ class PAC1934:
     # returns bus voltage in V
     def getVbus(self, channel: Channel):
         data = self.readReg(REG_VBUS_BASE + channel.value, 2)
-        print(channel.value)
+#        print(channel.value)
         adcVal = mergeBytes(data)
         lsb =  (32 / pow(2, 16))
-        print(adcVal, data)
+#        print(adcVal, data)
 #        print("Data in bin",bin(data[0]), bin(data[1]))
         voltage = adcVal * lsb
         return voltage
@@ -89,7 +89,7 @@ class PAC1934:
     def getCurrent(self, channel: Channel):
         data = self.readReg(REG_VSENSE_BASE + channel.value, 2)
         adcVal = mergeBytes(data)
-        print(bin(adcVal))
+#        print(bin(adcVal))
         FSC = 100 / 0.1
         current = FSC * adcVal / pow(2, 16)
         return current

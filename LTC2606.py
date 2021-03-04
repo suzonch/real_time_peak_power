@@ -44,9 +44,11 @@ class LTC2606(DAC):
 
 bus = SMBus(1)
 
-# ltc_addr_led = 0x10     #LED DAC
-# test = LTC2606(3300, bus.write_i2c_block_data)
-# test.set_current(ltc_addr_led, 100, 0.127)
+test = LTC2606(3300, bus.write_i2c_block_data)
+
+ltc_addr_led = 0x10     #LED DAC
+
+#test.set_current(ltc_addr_led, 200, 0.127)
 
 
 

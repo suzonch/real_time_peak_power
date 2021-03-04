@@ -29,8 +29,8 @@ def set_temp(addr, c):
         test.set_voltage(addr, adc_val2)
 
 
-# ltc_addr_tec = 0x11
-# #set_temp(ltc_addr_tec, 25)
+ltc_addr_tec = 0x11
+#set_temp(ltc_addr_tec, 10)
 #
-# adc_addr = 0x50
-# print("TEC temp:", get_temp(adc_addr))
+adc_addr = 0x50
+#print("TEC temp:", get_temp(adc_addr))
