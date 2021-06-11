@@ -89,18 +89,27 @@ def plot_spec(time):
 #calibrate
 #plot_spec()
 
+bus = SMBus(1)
 
-seconds = 600
+switch = 0x4c
+
+bus.write_i2c_block_data(switch, 0b00, [0b00000001])
+time.sleep(.5)
+
+#seconds = 62000
 start = time.time()
-end = start + seconds
+#end = start + seconds
+end = time.time()
 
-# while True:
-#     print("Test running, please don't remove the curtain or turn on light", end - time.time())
-#     save_spec(0.08, "LED4")
-#     saveiv_t(pac_addr, adc_addr, "LED4")
-#     time.sleep(1)
-#     if time.time() >= end:
-#         raise  RuntimeError("Test Done")
+while True:
+    print("Test running, time elasped (Minutes):", (time.time() - end)/60)
+    save_spec(0.1, "LED5")
+    saveiv_t(pac_addr, adc_addr, "LED5")
+    # if time.time() >= end:
+    #     bus.write_i2c_block_data(switch, 0b00, [0b00000000])
+    #     raise  RuntimeError("Test Done")
 
-#plot_spec(0.08)
-#save_spec(0.08, "Dark")
+    time.sleep(60)
+
+#plot_spec(0.2)
+#save_spec(0.2, "Dark")

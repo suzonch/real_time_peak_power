@@ -48,7 +48,7 @@ test = LTC2606(3300, bus.write_i2c_block_data)
 
 ltc_addr_led = 0x10     #LED DAC
 
-#test.set_current(ltc_addr_led, 200, 0.127)
+#test.set_current(ltc_addr_led, 770, 0.127)
 
 
 

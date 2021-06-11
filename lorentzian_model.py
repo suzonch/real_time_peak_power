@@ -234,12 +234,6 @@ def save_peaks(path, folder1, folder2):
 
 
 
-
-
-save_peaks(r"/home/pi/PycharmProjects/LED_Test_all/output/LED2/*.csv", "lorentzian_peaks_without_filter", "LED2")
-
-
-
-
+#save_peaks(r"/home/pi/PycharmProjects/LED_Test_all/output/LED4/*.csv", "lorentzian_peaks_without_filter", "LED4")
 
 
